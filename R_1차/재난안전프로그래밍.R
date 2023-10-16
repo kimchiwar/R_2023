@@ -76,5 +76,61 @@ List_1+List_2
 Vector_1 <-c(1.6, 2.3, 3.5)
 Vector_2 <-c(2.6, 5.3, 7.5) 
 Vector_1+Vector_2
+#__________________________________________________________10/16일__________________________________________________________
+#데이터 프레임(리스트의 모음)
 
+data <- c("A","B","C","B","A")
+frequency_table <- table(data)
+print(frequency_table)
+frequency_table[1]
 
+id<- c(1:5)
+gender<- c("M","F","F","M","M")
+major<- c("Eng","Math","Com","Eng","Busi")
+salary<-c(2500,2800,2500,3000,2600)
+survey<- data.frame(ID=id, Gender=gender, Major=major, Salary=salary, stringsAsFactors = FALSE)
+survey
+head(survey,n=3)
+tail(survey,n=3)
+survey$Salary      # 벡터구조로 추출
+survey[["Salary"]] # 동일
+
+survey$score=c(200,300,400,500,600) # scroe라는 행추가
+survey$ss = survey$Salary+survey$score
+survey
+
+summary(survey) #데이터 프레임 변수 요약
+survey$ID = as.character(survey$ID)
+
+names(survey)
+names(survey)[names(survey) == "ss"] = "sum" #항목 이름 변경
+
+survey[c(1,2)] #1,2번 째 열 가져오기
+survey[c(-1,-2)]#제외하고 가져오기
+survey[survey$Gender == "F",] #gender 카 F인 것만 가져온다
+survey[survey$Gender == "M"|survey$score>300,] # |연산과 &연산 사용가능
+
+survey2 <- survey[survey$Gender=="M",] #값 추출하기
+survey1 <- survey[survey$Gender!="M",] #값 추출하기
+survey1
+survey2
+rbind(survey1,survey2)
+
+a <-subset(survey,survey$ID >2,select = c("Gender","Major","Salary")) #값추출하기
+a
+
+survey$sum <- NULL #변수삭제
+survey
+
+name_age_df <- data.frame(
+  Name = c("Kim Cheol-soo", "Lee Cheol-soo", "Kim Young-hee","Lee Young-hee",
+           "Kim Min-jun", "Park Min-jun", "Kim Ji-young", "Park Ji-young"),
+  Age = c(20,24,21,24,35,40,34,35),stringsAsFactors = FALSE)
+name_age_df
+d = separate(name_age_df, col= "Name",into = c("Lastname","Firstname"),sep = "-") #데이터를 나누는 방법
+d
+
+data <- read.csv("/Applications/yes.csv",header=TRUE,stringsAsFactors = FALSE,fileEncoding = "CP949")
+data
+write.csv(survey, "/Users/song-ginam/survey.csv",row.names = FALSE)
+write.csv(survey, "/Users/song-ginam/survey_row.csv",row.names = TRUE)
